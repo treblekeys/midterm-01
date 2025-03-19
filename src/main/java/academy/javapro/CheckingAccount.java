@@ -5,7 +5,7 @@ package academy.javapro;
  * Features overdraft protection and transaction fees.
  */
 public class CheckingAccount extends Account {
-    private final double overdraftLimit;
+    private double overdraftLimit;
     private static final double TRANSACTION_FEE = 1.5; // Fee per withdrawal
 
     /**
@@ -27,7 +27,8 @@ public class CheckingAccount extends Account {
      * @return The overdraft limit
      */
     public double getOverdraftLimit() {
-        throw new UnsupportedOperationException("Method not implemented");
+
+        return overdraftLimit;
     }
 
     /**
@@ -36,7 +37,8 @@ public class CheckingAccount extends Account {
      * @param overdraftLimit The new overdraft limit
      */
     public void setOverdraftLimit(double overdraftLimit) {
-        throw new UnsupportedOperationException("Method not implemented");
+        this.overdraftLimit = overdraftLimit;
+        System.out.println("Overdraft limit updated to $" + String.format("%.2f", overdraftLimit));
     }
 
     /**
@@ -45,7 +47,27 @@ public class CheckingAccount extends Account {
      */
     @Override
     public void withdraw(double amount) {
-        throw new UnsupportedOperationException("Method not implemented");
+
+        if (amount <= 0) {
+            System.out.println("Withdrawal amount must be positive.");
+            return;
+        }
+
+        double totalDeduction = amount + TRANSACTION_FEE;
+        double availableFunds = getBalance() + overdraftLimit;
+
+        if (totalDeduction > availableFunds) {
+            System.out.println("Withdrawal denied! Insufficient funds and overdraft limit exceeded.");
+            return;
+        }
+        setBalance(getBalance() - totalDeduction);
+        logTransaction("WITHDRAWAL", amount);
+        logTransaction("FEE", TRANSACTION_FEE);
+        System.out.println("Withdrew $" + amount + " from checking account.");
+        System.out.println("Transaction fee: $" + TRANSACTION_FEE);
+        if (getBalance() < 0) {
+            System.out.println("Account is in overdraft. Current balance: $" + String.format("%.2f", getBalance()));
+        }
     }
 
     /**
@@ -58,4 +80,5 @@ public class CheckingAccount extends Account {
         System.out.println("Overdraft Limit: $" + String.format("%.2f", overdraftLimit));
         System.out.println("Transaction Fee: $" + String.format("%.2f", TRANSACTION_FEE));
     }
+
 }

@@ -10,17 +10,18 @@ public class BankingSystem {
         System.out.println("======= Banking System Demonstration =======\n");
 
         // Create different types of accounts
-        // TODO: Create a new SavingsAccount object with account number "SA001", account holder name "John Doe", initial balance 1000.0, and interest rate 2.5
+       SavingsAccount savingsJohnDoe = new SavingsAccount("SA001" , "John Doe" , 1000.00 , 2.5);
+       CheckingAccount checkingJaneSmith = new CheckingAccount("CA001" , "Jane Smith" , 2000.00 , 500.00);
 
-        // TODO: Create a new CheckingAccount object with account number "CA001", account holder name "Jane Smith", initial balance 2000.0, and overdraft limit 500.0
-
-        // Store accounts in an array to demonstrate polymorphism
-        // TODO: Create an array of Account objects and store the savings and checking accounts in it
+       // Store accounts in an array to demonstrate polymorphism
+       Account[] accounts = {savingsJohnDoe , checkingJaneSmith};
 
         // Display initial information for all accounts
         System.out.println("--- Initial Account Information ---");
-
-        // TODO: Loop through the accounts array and call the displayInfo method for each account, followed by a newline using System.out.println()
+        for(Account account : accounts) {
+            account.displayInfo();
+            System.out.println();
+        }
 
         // Demonstrate account operations
         System.out.println("--- Performing Account Operations ---");
@@ -28,16 +29,17 @@ public class BankingSystem {
         // Test deposit operations
         System.out.println("\n1. Testing deposits:");
 
-        // TODO: Deposit 500.0 into the savings account and 300.0 into the checking account
+        savingsJohnDoe.deposit(500);
+        checkingJaneSmith.deposit(300);
 
         // Test withdrawal operations
         System.out.println("\n2. Testing withdrawals:");
 
-        // TODO: Withdraw 1300.0 from the savings account (should fail due to minimum balance requirement)
+        savingsJohnDoe.withdraw(1300);
 
-        // TODO: Withdraw 200.0 from the savings account (should succeed)
+        savingsJohnDoe.withdraw(200);
 
-        // TODO: Withdraw 2500.0 from the checking account (should go into overdraft)
+        checkingJaneSmith.withdraw(2500);
 
         // Test account-specific operations
         System.out.println("\n3. Testing account-specific operations:");
@@ -45,28 +47,35 @@ public class BankingSystem {
         // Savings account - apply interest
         System.out.println("\nSavings Account - Applying interest:");
 
-        // TODO: Call the applyInterest method on the savings account
+        savingsJohnDoe.applyInterest();
 
         // Checking account - modify overdraft
         System.out.println("\nChecking Account - Modifying overdraft limit:");
 
-        // TODO: Set the overdraft limit of the checking account to 1000.0
+        checkingJaneSmith.setOverdraftLimit(1000);
 
         // Display updated information for all accounts
         System.out.println("\n--- Updated Account Information ---");
 
-        // TODO: Loop through the accounts array and call the displayInfo method for each account, followed by a newline using System.out.println()
+        for (Account account : accounts) {
+            account.displayInfo();
+            System.out.println();
+        }
 
         // Display transaction history
         System.out.println("--- Transaction History ---");
 
         System.out.println("\nSavings Account Transactions:");
 
-        // TODO: Loop through the transaction history of the savings account and print each transaction using System.out.println()
+        for (String transaction : savingsJohnDoe.getTransactionHistory()) {
+            System.out.println(transaction);
+        }
 
         System.out.println("\nChecking Account Transactions:");
 
-        // TODO: Loop through the transaction history of the checking account and print each transaction using System.out.println()
+        for (String transaction : checkingJaneSmith.getTransactionHistory()) {
+            System.out.println(transaction);
+        }
 
         System.out.println("\n======= End of Banking System Demonstration =======");
     }
